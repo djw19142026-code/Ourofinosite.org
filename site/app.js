@@ -143,41 +143,56 @@ refDireita.limitToLast(3).on('value', (snapshot) => {
     
 // --- 2. FUNÇÃO DE UPLOAD (AÇÃO) ---
 
+// --- NOVA FUNÇÃO DE UPLOAD (SEM USAR STORAGE / SEM PEDIR UPGRADE) ---
 function processarUpload() {
     const arquivo = document.getElementById('input-arquivo').files[0];
-    const lado = document.getElementById('lado-escolhido').value; // 'esquerda' ou 'direita'
+    const lado = document.getElementById('lado-escolhido').value; 
 
     if (!arquivo) return alert("Selecione uma imagem!");
 
     const btn = document.querySelector('#painel-admin button:first-child');
     const textoOriginal = btn.innerText;
-    btn.innerText = "Enviando...";
+    btn.innerText = "Processando...";
     btn.disabled = true;
 
-    // Caminho dinâmico usando a variável ${lado}
-    const storageRef = firebase.storage().ref(`imagens_site/${lado}/${arquivo.name}`);
+    // LER O ARQUIVO NO CELULAR/PC
+    const reader = new FileReader();
+    reader.readAsDataURL(arquivo);
+    reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = function() {
+            // --- DIMINUIR A FOTO (COMPRESSÃO) ---
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800; // Largura suficiente para o quadro de anúncios
+            const scaleSize = MAX_WIDTH / img.width;
+            canvas.width = MAX_WIDTH;
+            canvas.height = img.height * scaleSize;
 
-    // Fluxo de Promessas (.then)
-    storageRef.put(arquivo)
-        .then(snapshot => snapshot.ref.getDownloadURL()) // Pega o link da foto
-        .then(url => {
-            // .push(url): Adiciona o link no final da lista do banco
-            return firebase.database().ref(`configuracao_site/imagens/${lado}`).push(url);
-        })
-        .then(() => {
-            alert(`✅ Sucesso no lado: ${lado}`);
-        })
-        .catch(error => {
-            console.error(error);
-            alert("❌ Erro ao enviar.");
-        })
-        .finally(() => {
-            // Independente de tudo, o botão volta ao normal
-            btn.innerText = textoOriginal;
-            btn.disabled = false;
-        });
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Transforma em JPEG leve (qualidade 0.6)
+            const fotoComprimidaBase64 = canvas.toDataURL('image/jpeg', 0.6);
+
+            // --- ENVIAR DIRETO PARA O DATABASE ---
+            // Usamos .push() para manter um histórico ou .set() para substituir a atual
+            database.ref(`configuracao_site/imagens/${lado}`).push(fotoComprimidaBase64)
+                .then(() => {
+                    alert(`✅ Publicado com sucesso no lado ${lado}!`);
+                    document.getElementById('painel-admin').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("❌ Erro ao salvar no banco.");
+                })
+                .finally(() => {
+                    btn.innerText = textoOriginal;
+                    btn.disabled = false;
+                });
+        };
+    };
 }
-
 // --- 3. ATUALIZAÇÃO DA TELA (VISUAL) ---
 
 function atualizarInterfaceCarrossel(idContainer, fotos) {
@@ -294,4 +309,5 @@ document.getElementById('form-pedidos').addEventListener('submit', async functio
         btn.disabled = false;
         btn.innerText = textoOriginal;
     }
+
 });
