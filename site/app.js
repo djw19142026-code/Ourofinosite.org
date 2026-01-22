@@ -54,12 +54,14 @@ updateCountdown();
 
 // --- 2. CONFIGURAÇÃO FIREBASE ---
 const firebaseConfig = {
-    apiKey: "AIzaSyB-lHDfEOmUBiL4lT2rvx3T1OBIKAPPH-E",
-    databaseURL: "https://congregacaoourofinosite-default-rtdb.firebaseio.com",
-    projectId: "congregacaoourofinosite",
-    storageBucket: "congregacaoourofinosite.appspot.com", // Adicionado para funcionar as imagens
-    appId: "1:358264196614:web:451c5bdbdca22186ddfd87"
+    apiKey: "AIzaSyDwXLM9DBX6wXCwlOF0fjAdnoH0I3OeB4k",
+    databaseURL: "https://ourofinosite-b5cc9-default-rtdb.firebaseio.com",
+    projectId:"ourofinosite-b5cc9",
+    storageBucket: "ourofinosite-b5cc9.firebasestorage.app", // Adicionado para funcionar as imagens
+    appId:  "1:615972474038:web:4c3f5a306acf9354fd6a17"
 };
+
+
 
 // Inicializa o Firebase
 firebase.initializeApp(firebaseConfig);
@@ -311,3 +313,4 @@ document.getElementById('form-pedidos').addEventListener('submit', async functio
     }
 
 });
+
