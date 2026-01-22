@@ -1,0 +1,27 @@
+
+
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+            
+ 
+         body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb; /* Fundo claro e suave */
+        background-image: url("file:///C:/Users/anton/Pictures/Saved%20Pictures/Captura%20de%20tela%202025-12-11%20172923.png");
+    
+    /* ESSENCIAL: Garante que a seção tenha altura */
+    height: 400px; /* Ou use '100vh' para tela cheia */
+    
+    background-size: cover;
+    /* ... outras propriedades ... */
+
+        }
+
+        .border-color{ border :#fdbb04}
+
+        .primary-color { background-color: #1e3a8a; } /* Azul marinho escuro */
+        .primary-text { color: #fdbb04; }
+        .secondary-color { background-color: #00000036; } /* Azul brilhante para destaque */
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06); }
+
+
+        

@@ -1,0 +1,71 @@
+  
+ 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9fb;
+    margin: 0;
+    padding: 10px;
+}
+
+.border-color { border: 2px solid #fdbb04; }
+.primary-color { background-color: #1e3a8a; }
+.primary-text { color: #fdbb04; }
+.secondary-color { background-color: #00000036; }
+.card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+
+/* --- AJUSTE DO CONTAINER DUPLO --- */
+.container-duplo {
+    display: flex;
+    flex-direction: column; /* PADRÃO: Um embaixo do outro (Celular) */
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;           /* Ocupa a largura toda no celular */
+    max-width: 500px;
+}
+
+#imagem-esquerda, #imagem-direita {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    height: 350px;
+    object-fit: contain;
+    background-color: #eee;
+}
+
+/* --- SETAS --- */
+.seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 12px; /* Reduzi um pouco para não cobrir a foto no celular */
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.anterior { left: 0; border-radius: 0 3px 3px 0; }
+.proximo { right: 0; border-radius: 3px 0 0 3px; }
+
+/* --- CONFIGURAÇÃO PARA TABLETS E PC (Telas maiores que 768px) --- */
+@media (min-width: 768px) {
+    .container-duplo {
+        flex-direction: row;     /* Fica Lado a Lado no PC/Tablet */
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    .carousel-container {
+        width: 48%;             /* Divide a tela no PC */
+    }
+}
